@@ -1,0 +1,38 @@
+basePath: /api/v1
+definitions:
+  main.CoinUrl:
+    properties:
+      url:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Get a list of the best investors of crypto coin. Built on top of github.com/feynmaz/cypherhunterscrapper
+  title: Follow Smart Money API
+  version: "1.0"
+paths:
+  /coin:
+    post:
+      consumes:
+      - application/json
+      description: PostCoinUrl
+      parameters:
+      - description: url of coin page on cypherhunter.com
+        in: body
+        name: url
+        required: true
+        schema:
+          $ref: '#/definitions/main.CoinUrl'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Get a list of the best investors of crypto coin
+swagger: "2.0"
