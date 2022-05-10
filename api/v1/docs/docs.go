@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/coin": {
+        "/coins": {
             "post": {
                 "description": "PostCoinUrl",
                 "consumes": [
@@ -24,6 +24,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "coins"
                 ],
                 "summary": "Get a list of the best investors of crypto coin",
                 "parameters": [
@@ -41,7 +44,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/main.Investor"
                         }
                     },
                     "500": {
@@ -60,6 +63,23 @@ const docTemplate = `{
             "properties": {
                 "url": {
                     "type": "string"
+                }
+            }
+        },
+        "main.Investor": {
+            "type": "object",
+            "properties": {
+                "link": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "tier": {
+                    "type": "string"
+                },
+                "tierId": {
+                    "type": "integer"
                 }
             }
         }

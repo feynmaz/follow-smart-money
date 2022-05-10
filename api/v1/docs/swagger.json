@@ -8,7 +8,7 @@
     },
     "basePath": "/api/v1",
     "paths": {
-        "/coin": {
+        "/coins": {
             "post": {
                 "description": "PostCoinUrl",
                 "consumes": [
@@ -16,6 +16,9 @@
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "coins"
                 ],
                 "summary": "Get a list of the best investors of crypto coin",
                 "parameters": [
@@ -33,7 +36,7 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/main.Investor"
                         }
                     },
                     "500": {
@@ -52,6 +55,23 @@
             "properties": {
                 "url": {
                     "type": "string"
+                }
+            }
+        },
+        "main.Investor": {
+            "type": "object",
+            "properties": {
+                "link": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "tier": {
+                    "type": "string"
+                },
+                "tierId": {
+                    "type": "integer"
                 }
             }
         }

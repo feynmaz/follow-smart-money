@@ -17,6 +17,14 @@ type CoinUrl struct {
 	Url string `json:"url"`
 }
 
+// swagger:model Investor
+type Investor struct {
+	Name   string
+	Link   string
+	Tier   string
+	TierId int
+}
+
 // @title           Follow Smart Money API
 // @version         1.0
 // @description     Get a list of the best investors of crypto coin. Built on top of github.com/feynmaz/cypherhunterscrapper
@@ -33,20 +41,25 @@ func main() {
 
 	v1 := r.Group("/api/v1")
 	{
-		v1.POST("/coin", PostCoinUrl)
+		coins := v1.Group("coins")
+		{
+			coins.POST("/", PostCoinUrl)
+		}
+
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run(":" + configs.PORT)
 }
 
 // @description 	PostCoinUrl
+// @tags			coins
 // @summary 		Get a list of the best investors of crypto coin
 // @accept 			json
 // @produce 		json
 // @param 			url body CoinUrl true "url of coin page on cypherhunter.com"
-// @success      	200 {string} string "success"
+// @success      	200 {object} Investor "success"
 // @failure      	500 {string} string "fail"
-// @router			/coin [post]
+// @router			/coins [post]
 func PostCoinUrl(c *gin.Context) {
 	var cu CoinUrl
 	if err := c.BindJSON(&cu); err != nil {
@@ -56,14 +69,15 @@ func PostCoinUrl(c *gin.Context) {
 	r, err := scrapper.NewCoinRequester(cu.Url)
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 
 	listAll, err := scrapper.GetInvestorsAll(r)
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 
 	listExceptional := scrapper.GetInvestorsExceptional(listAll)
-
 	c.IndentedJSON(http.StatusOK, listExceptional)
 }

@@ -5,13 +5,24 @@ definitions:
       url:
         type: string
     type: object
+  main.Investor:
+    properties:
+      link:
+        type: string
+      name:
+        type: string
+      tier:
+        type: string
+      tierId:
+        type: integer
+    type: object
 info:
   contact: {}
   description: Get a list of the best investors of crypto coin. Built on top of github.com/feynmaz/cypherhunterscrapper
   title: Follow Smart Money API
   version: "1.0"
 paths:
-  /coin:
+  /coins:
     post:
       consumes:
       - application/json
@@ -29,10 +40,12 @@ paths:
         "200":
           description: success
           schema:
-            type: string
+            $ref: '#/definitions/main.Investor'
         "500":
           description: fail
           schema:
             type: string
       summary: Get a list of the best investors of crypto coin
+      tags:
+      - coins
 swagger: "2.0"
